@@ -2,17 +2,13 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import pickle
 import os
-import kagglehub
 
-# Download dataset from KaggleHub
-path = kagglehub.dataset_download("vicky1999/student-marks-dataset")
-
-# Read CSV file
-files_in_dir = os.listdir(path)
-csv_file = [f for f in files_in_dir if f.endswith('.csv')][0]
-full_csv_path = os.path.join(path, csv_file)
-df = pd.read_csv(full_csv_path)
+# Load dataset from pickle file
+pkl_file_path = "students_marks.pkl"  # Make sure this file exists
+with open(pkl_file_path, "rb") as f:
+    df = pickle.load(f)
 
 # Prepare data
 X = df[['Maths', 'Physics', 'Chemistry']].values
@@ -32,7 +28,6 @@ def knn_predict(X_train, y_train, X_test, k=3):
     counts = {}
     for _, label in k_nearest:
         counts[label] = counts.get(label, 0) + 1
-    # Return the label with the highest count
     return max(counts, key=counts.get)
 
 # Streamlit UI
