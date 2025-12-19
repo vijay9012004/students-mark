@@ -5,8 +5,7 @@ import numpy as np
 import pickle
 
 # Load dataset from pickle
-pkl_file_path = "students_marks.pkl"  # <-- use the actual pickle filename
-with open(pkl_file_path, "rb") as f: 
+with open("students_marks.pkl", "rb") as f:
     df = pickle.load(f)
 
 # Prepare data
@@ -27,7 +26,7 @@ def knn_predict(X_train, y_train, X_test, k=3):
     counts = {}
     for _, label in k_nearest:
         counts[label] = counts.get(label, 0) + 1
-    # Handle tie by returning the first with max count
+    # Return the label with the highest count
     return max(counts, key=counts.get)
 
 # Streamlit UI
